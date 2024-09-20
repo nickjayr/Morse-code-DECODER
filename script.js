@@ -2,6 +2,7 @@ const video = document.getElementById('video');
 const output = document.getElementById('output');
 const canvas = document.getElementById('canvasOutput');
 const ctx = canvas.getContext('2d');
+const startButton = document.getElementById('startButton');
 
 // Morse code dictionary
 const morseCode = {
@@ -14,14 +15,19 @@ const morseCode = {
     '---..': '8', '----.': '9'
 };
 
-// Access the camera
-navigator.mediaDevices.getUserMedia({ video: true })
-    .then(stream => {
-        video.srcObject = stream;
-    })
-    .catch(err => {
-        console.error("Error accessing the camera: ", err);
-    });
+// Start camera on button click
+startButton.addEventListener('click', () => {
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            video.srcObject = stream;
+            video.style.display = 'block';
+            startButton.style.display = 'none';
+            processVideo();
+        })
+        .catch(err => {
+            console.error("Error accessing the camera: ", err);
+        });
+});
 
 // Initialize OpenCV.js
 cv['onRuntimeInitialized'] = () => {
@@ -70,6 +76,4 @@ cv['onRuntimeInitialized'] = () => {
         cv.imshow('canvasOutput', threshold);
         requestAnimationFrame(processVideo);
     }
-
-    requestAnimationFrame(processVideo);
 };
