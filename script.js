@@ -22,8 +22,6 @@ startButton.addEventListener('click', () => {
     navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
         .then(stream => {
             video.srcObject = stream;
-            video.style.display = 'block';
-            startButton.style.display = 'none';
             processVideo();
         })
         .catch(err => {
@@ -48,6 +46,7 @@ cv['onRuntimeInitialized'] = () => {
     const src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     const gray = new cv.Mat();
     const threshold = new cv.Mat();
+    const blueOnly = new cv.Mat();
 
     let lastFlashTime = 0;
     let morseString = '';
@@ -57,6 +56,10 @@ cv['onRuntimeInitialized'] = () => {
         cap.read(src);
         cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
         cv.threshold(gray, threshold, parseInt(thresholdSlider.value), 255, cv.THRESH_BINARY);
+
+        // Filter to show only blue color
+        cv.inRange(src, new cv.Mat(src.rows, src.cols, src.type(), [0, 0, 128, 0]), new cv.Mat(src.rows, src.cols, src.type(), [255, 255, 255, 255]), blueOnly);
+        cv.bitwise_and(src, src, src, blueOnly);
 
         // Detect flashes
         let mean = cv.mean(threshold)[0];
@@ -86,7 +89,7 @@ cv['onRuntimeInitialized'] = () => {
             }
         }
 
-        cv.imshow('canvasOutput', threshold);
+        cv.imshow('canvasOutput', src);
         requestAnimationFrame(processVideo);
     }
 };
