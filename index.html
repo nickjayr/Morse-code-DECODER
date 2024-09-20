@@ -4,12 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Morse Code Decoder</title>
+    <style>
+        #video {
+            display: none;
+            width: 640px;
+            height: 480px;
+            border: 1px solid black;
+        }
+        #canvasOutput {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>Morse Code Decoder</h1>
     <button id="startButton">Start Camera</button>
-    <video id="video" width="640" height="480" style="display:none;" autoplay></video>
-    <canvas id="canvasOutput" width="640" height="480" style="display:none;"></canvas>
+    <video id="video" autoplay></video>
+    <canvas id="canvasOutput" width="640" height="480"></canvas>
     <p id="output"></p>
     <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
     <script src="script.js"></script>
