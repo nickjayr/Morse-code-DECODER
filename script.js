@@ -3,6 +3,8 @@ const output = document.getElementById('output');
 const canvas = document.getElementById('canvasOutput');
 const ctx = canvas.getContext('2d');
 const startButton = document.getElementById('startButton');
+const saveButton = document.getElementById('saveButton');
+const thresholdSlider = document.getElementById('thresholdSlider');
 
 // Morse code dictionary
 const morseCode = {
@@ -26,7 +28,18 @@ startButton.addEventListener('click', () => {
         })
         .catch(err => {
             console.error("Error accessing the camera: ", err);
+            alert("Error accessing the camera. Please try again.");
         });
+});
+
+// Save decoded message
+saveButton.addEventListener('click', () => {
+    const text = output.innerText;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const anchor = document.createElement('a');
+    anchor.href = URL.createObjectURL(blob);
+    anchor.download = 'decoded_message.txt';
+    anchor.click();
 });
 
 // Initialize OpenCV.js
@@ -43,7 +56,7 @@ cv['onRuntimeInitialized'] = () => {
     function processVideo() {
         cap.read(src);
         cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
-        cv.threshold(gray, threshold, 200, 255, cv.THRESH_BINARY);
+        cv.threshold(gray, threshold, parseInt(thresholdSlider.value), 255, cv.THRESH_BINARY);
 
         // Detect flashes
         let mean = cv.mean(threshold)[0];
