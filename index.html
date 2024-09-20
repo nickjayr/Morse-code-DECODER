@@ -52,10 +52,19 @@
         #thresholdSlider {
             margin-top: 20px;
         }
+        #instructions {
+            margin-bottom: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <h1>Morse Code Decoder</h1>
+    <div id="instructions">
+        <p>Click "Start Camera" to begin decoding Morse code flashes using your rear camera.</p>
+        <p>Adjust the threshold slider if the detection is not accurate.</p>
+        <p>Click "Save Decoded Message" to save the decoded text as a file.</p>
+    </div>
     <button id="startButton">Start Camera</button>
     <video id="video" autoplay></video>
     <canvas id="canvasOutput" width="640" height="480"></canvas>
