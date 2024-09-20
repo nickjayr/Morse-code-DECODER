@@ -35,10 +35,16 @@ saveButton.addEventListener('click', () => {
     const text = output.innerText;
     const blob = new Blob([text], { type: 'text/plain' });
     const anchor = document.createElement('a');
+    anchor.style.display = 'none';
     anchor.href = URL.createObjectURL(blob);
     anchor.download = 'decoded_message.txt';
-    anchor.click();
+
+    document.body.appendChild(anchor); // Append the anchor
+    anchor.click(); // Trigger the download
+    document.body.removeChild(anchor); // Clean up the DOM
+    URL.revokeObjectURL(anchor.href); // Revoke the object URL
 });
+
 
 // Initialize OpenCV.js
 cv['onRuntimeInitialized'] = () => {
