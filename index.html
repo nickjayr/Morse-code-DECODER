@@ -5,14 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Morse Code Decoder</title>
     <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
         #video {
             display: none;
             width: 640px;
             height: 480px;
-            border: 1px solid black;
+            border: 1px solid #333;
         }
         #canvasOutput {
             display: none;
+        }
+        #startButton, #saveButton {
+            background-color: #333;
+            color: #e0e0e0;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        #startButton:hover, #saveButton:hover {
+            background-color: #555;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #333;
+            width: 640px;
+            min-height: 50px;
+            background-color: #1e1e1e;
+        }
+        #thresholdSlider {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -22,6 +58,9 @@
     <video id="video" autoplay></video>
     <canvas id="canvasOutput" width="640" height="480"></canvas>
     <p id="output"></p>
+    <input type="range" id="thresholdSlider" min="100" max="255" value="200">
+    <label for="thresholdSlider">Adjust Threshold</label>
+    <button id="saveButton">Save Decoded Message</button>
     <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
     <script src="script.js"></script>
 </body>
